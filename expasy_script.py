@@ -51,7 +51,7 @@ class Cell_search:
 	def __init__(self, url):
 
 		
-		'''
+		'''				#OLD WAY#
 		#Make HTTP request
 		req = requests.request('GET', url)
 
@@ -76,13 +76,13 @@ class Cell_search:
 		else:
 			self.page_found = False
 		'''	
-							#USED TO PROCESS A LIST OF URLS#
+		
+		#USED TO PROCESS A LIST OF URLS/SEARCH BY ACCESSION CODE#
 		req = requests.request('GET', url)         
                 self.page = BeautifulSoup(req.content, 'html.parser')
                 self.page_found = True   		
 				
-
-		#Initialize data fields for the cell line collection
+		#Initialize data fields for the cell line.
 		self.accession = 'NA'
 		self.primary_name = 'NA'
 		self.aliases = 'NA'
