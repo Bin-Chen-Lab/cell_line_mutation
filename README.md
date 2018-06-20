@@ -12,7 +12,7 @@ the year was pulled, the ethinicity, and the url from where the ethnicity was fo
 
 DOWNLOADING AND RUNNING
 ------------------------
-To run the script download the following files and place them all in the same directory: 
+To run the script download the following files and place them in the same directory: 
 
 - "expasy_script.py" 
 
