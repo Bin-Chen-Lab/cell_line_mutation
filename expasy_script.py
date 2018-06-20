@@ -1,8 +1,10 @@
 #########################################################
 #
 # This program will run a script that will 
-# search for the age, gender, and year of the 
-# earliest mention of a cell line on the Expasy Database. 
+# search basic information for a cell line. See the Readme
+# on the cell_line_mutation repository for more info
+# on what data is pulled and the general functionality
+# of the program.
 #
 # @Author: Anthony Sciarini
 # @Version: 6/20/2018
@@ -34,7 +36,7 @@ from bs4 import BeautifulSoup	        #Process HTML documents lib
 # @Version 6/20/2018
 #
 ############################################################################################
-class Cell_scraper:
+class Cell_search:
 
 	#####################################################################################
 	# 
@@ -477,20 +479,20 @@ def main():
 		
 	print 'Cell.Primary.Name,Aliases,Sex,Age,Ethnicity,Min.Pub.Year,Min.Clc.Year,Clc.Year.Url,Eth.Url'
 	for query in query_list:
-		obj = Cell_scraper(query)
+		cell = Cell_search(query)
 
 		#Search for data for the cell line	
-		obj.search_for_accession()
-		obj.grab_clc_links()			
-		obj.search_clc_pages()	
-		obj.search_pub_yr()					
-		obj.search_for_sex()		
-		obj.search_for_age()	
-		obj.search_for_primary_name()	
-		obj.search_for_alias()	
+		cell.search_for_accession()
+		cell.grab_clc_links()			
+		cell.search_clc_pages()	
+		cell.search_pub_yr()					
+		cell.search_for_sex()		
+		cell.search_for_age()	
+		cell.search_for_primary_name()	
+		cell.search_for_alias()	
 			
 		#Print data in a csv format.
-		print obj.primary_name +','+ obj.aliases +','+ obj.accession  +','+ obj.sex +','+ obj.age +','+ obj.ethnicity +','+ obj.pub_yr +','+ obj.og_yr +','+ obj.og_yr_url +','+ obj.eth_url
+		print cell.primary_name +','+ cell.aliases +','+ cell.accession  +','+ cell.sex +','+ cell.age +','+ cell.ethnicity +','+ cell.pub_yr +','+ cell.og_yr +','+ cell.og_yr_url +','+ cell.eth_url
 
 	
 #############
