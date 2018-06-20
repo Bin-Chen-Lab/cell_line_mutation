@@ -14,9 +14,9 @@ DOWNLOADING AND RUNNING
 ------------------------
 To run the script download the following files and place them all in the same directory: 
 
-expasy_script.py 
+- "expasy_script.py" 
 
-accession_codes.csv
+- "accession_codes.csv"
 
 To run the expasy script from the terminal use the following command:
 
