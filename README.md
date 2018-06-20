@@ -3,7 +3,7 @@
 Author: Anthony Sciarini  
 Version: June 20, 2018
 
-About
+ABOUT
 ------
 This program will access cell lines form the expasy database by their accession code and will search for various information for each cell line such as:
 The primary name of the cell line, Aliases, Accession code, Age, Gender, Earliest year mentioned found in the the publication section and in the cell line collections contaiing the cell line, the url from where 
