@@ -214,6 +214,9 @@ class Cell_search:
 	#
 	#################################################################################################################### 
 	def grab_clc_links(self):
+
+		#TODO Grab links from Biological Sample resources and cell line database resources
+
 		if self.page_found == True:		
 			#Return message
 			rtn = ''		
@@ -432,7 +435,7 @@ class Cell_search:
 		#Types of possible ethinicites for cell lines.
 		categories = ['Caucasian' , 'caucasian' , 'Chinese' ,'chinese' , 'Japanese' , 'japanese' , 
 			      'Filipino' , 'filipino' , 'Korean' , 'korean' , 'Vietnamese', 'vietnamese',
-			      'African American' , 'african american' , 'Black' , 'black']
+			      'African American' , 'african american' , 'Black' , 'black' , 'white' , 'White']
 		
 		#Filter out any unkown characeters the would interfere with grabbing valid data
                 page_str = unicodedata.normalize('NFKD', unicode(clc_page)).encode('ascii' , 'ignore')			
@@ -500,3 +503,37 @@ def main():
 #############				
 if __name__ == '__main__':
 	main()
+
+##############
+#Testing Zone#
+##############
+
+bad_urls = ['https://portals.broadinstitute.org/ccle/page?cell_line=2313287_STOMACH',
+	    'https://www.cancerrxgene.org/translation/CellLine/910924',
+            'http://knowledge.lonza.com',
+	    'http://www.cghtmd.jp/CGHDatabase/mapViewer?hid=54&aid=1&lang=en',
+	    'http://cellresource.cn',
+	    'http://cell-lines.toku-e.com/Cell-Lines_460.html',
+	    '']
+
+#This guy might be useless ->	http://lincsportal.ccs.miami.edu/cells/#/view/LCL-1685
+
+# TODO look at this HTML for biosample website
+url = 'https://www.ncbi.nlm.nih.gov/biosample/?term=SAMN03471600'
+
+# TODO look at HTML for cell line databases/resources website
+url_2 = 'http//igrcid.ibms.sinica.edu.tw/cgi-bin/cell_line_view.cgi?cl_name=22Rv1'
+
+# TODO look at HTML for cell line databases/resources
+url_3 = 'http://bioinformatics.hsanmartino.it/cldb/cl38.html'
+
+# TODO look at HTML for cell line databases/resources
+url_4 = 'https://cancer.sanger.ac.uk/cell_lines/sample/overview?id=910924'
+
+# TODO look at HTML for cell line databases/resources
+url_5 = 'http://lincs.hms.harvard.edu/db/cells/50002/'
+
+# TODO look at HTML for cell line for a bio samele, might be useful
+url_6 = 'https://www.encodeproject.org/biosamples/ENCBS225AJI/'
+
+# TODO look at HTML for ...
