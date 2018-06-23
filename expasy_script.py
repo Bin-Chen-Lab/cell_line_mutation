@@ -48,9 +48,7 @@ class Cell_search:
 	# @Param The url of the the search results page for a particular cell line.
 	#
 	####################################################################################
-	def __init__(self, url):
-
-		
+	def __init__(self, url):		
 		'''				#OLD WAY#
 		#Make HTTP request
 		req = requests.request('GET', url)
@@ -91,7 +89,7 @@ class Cell_search:
 		self.pub_yr = 'NA'
 		self.og_yr = 'NA'
 		self.ethnicity = 'NA'
-		self.clc_links = []
+		self.cl_links = []
 		self.og_yr_url = 'NA'
 		self.eth_url = 'NA'
 
@@ -226,22 +224,41 @@ class Cell_search:
 
 			#String that will contain the HTML containing the URLS of all the cell line collections
 			clc = ''
+			
+			#String that will contain the HTMl containing the URLS of all the cell line data-base resources
+			cl_dbr = ''
+
+			#String that will contain the HTML containing the URLS of all the biological sample resources
+			bsr = ''
+
+			#Strint 
 			for row in self.page.find_all('tr'):
 				if str(row.th) != 'None':
 					if str(row.th.string) == 'Cell line collections':
 						clc = row
-						break
+					if str(row.th.string) == 'Cell line databases/resources':
+						cl_dbr = row
+					if str(row.th.string) == 'Biological sample resources':
+						bsr = row
+						
 
-			#If there is no cell line collection then return	
-			if clc == '':
+			#If there are no links to look through	
+			if clc == '' and cl_dbr == '' and bsr == '':
 				return
 	
-			#If there are cell line collections that reference the cell line, then put the url's to those  
-			#web pages into a list.
-			links = []
-			for link in clc.find_all('a'):
-				#print link.string
-				self.clc_links.append(link['href'])
+			#If there links that could be grabbed, then put there url's into the cell line links list 
+			if clc != '':
+				for link in clc.find_all('a'):
+					#print link.string
+					self.cl_links.append(link['href'])
+			if cl_dbr != '':
+				for link in cl_dbr.find_all('a'):
+       	                        	#print link.string
+       	                        	self.cl_links.append(link['href'])
+			if bsr != '':
+				for link in bsr.find_all('a'):
+       	                        	#print link.string
+       	                        	self.cl_links.append(link['href'])
 
 	#########################################################################################################
 	#
@@ -300,7 +317,7 @@ class Cell_search:
 			ethnicity = 'NA'
 			
 			#For each valid cell line collection url, grab the ethnicity and the minimum year of origin if they are available. 
-			for url in self.clc_links:
+			for url in self.cl_links:
 
 				#Create list to store years and a String to store the ethnicity#
 				yrs = []
@@ -310,7 +327,8 @@ class Cell_search:
 				#List of cell line collection webiste urls that do not have any useful information relating to ethnicity or years
 				#i.e bad urls.
 				bad_url = ['en.pasteur.ac' , 'clsgmbh' , 'ibvr.org' , 'kcb.kiz' , 'cellbank.snu.ac.kr' , 'coriell.org', 
-					  'www.fli.de/en/services', 'dtp.cancer.gov']
+					  'www.fli.de/en/services', 'dtp.cancer.gov', 'portals.broadinstitute.org', 'www.cancerrxgene.org', 
+					  'knowledge.lonza', 'www.cghtmd.jp', 'cellresource.cn', 'cell-lines.toku-e.com']
 				
 				#Boolean value that gets flipped if the web page has no useful data.
 	                        no_data = False  
@@ -353,7 +371,7 @@ class Cell_search:
 					ethnicity = self.grab_ethnicity(url_page,'span', ethnicity, url)
 					
 				#Search years and ethnicity from <dd> tags
-				if 'dsmz.de/catalogues' in url:
+				if 'dsmz.de/catalogues' in url or 'cancer.sanger' in url or 'www.encodeproject.org' in url:
 					#Search for years
 					yrs += self.grab_years('dd' , url_page)	
 					
@@ -370,7 +388,7 @@ class Cell_search:
 					
 				#Search years and ethnicity from <td> tags
 				#TODO specify where ethncity is searched from only in this case do to issues with cellbank.nibiohn
-				if 'www.atcc.org' in url or 'catalog.bcrc.firdi.org' in url or 'iclc.it/details' in url or 'http://cellbank.nibiohn.go.jp' in url or 'idac.tohoku.ac' in url:	
+				if 'www.atcc.org' in url or 'lincs.hms.harvard.edu' in url or 'ncbi.nlm.nih.gov' in url or 'catalog.bcrc.firdi.org' in url or 'iclc.it/details' in url or 'http://cellbank.nibiohn.go.jp' in url or 'idac.tohoku.ac' in url:	
 					#Search for years
 					yrs += self.grab_years('td' , url_page)	
 					
@@ -385,6 +403,16 @@ class Cell_search:
 					#Search for ethnicity
 					ethnicity = self.grab_ethnicity(url_page, 'div', ethnicity, url)			
 				
+				#Search for years and ethnicity on the entire page 				
+				if '/bioinformatics.hsanmartino' in url:
+					#Search for years
+                                        yrs += self.grab_years('html' , url_page)
+
+                                        #Search for ethnicity
+                                        ethnicity = self.grab_ethnicity(url_page, 'html', ethnicity, url)
+                                 
+								
+	
 			        #Remove any characters surrounding that years.
 				yrs = map(self.str_trim, yrs)  
 				
@@ -487,15 +515,18 @@ def main():
 		#Search for data for the cell line	
 		cell.search_for_accession()
 		cell.grab_clc_links()			
-		cell.search_clc_pages()	
-		cell.search_pub_yr()					
-		cell.search_for_sex()		
-		cell.search_for_age()	
-		cell.search_for_primary_name()	
-		cell.search_for_alias()	
-			
+		#cell.search_clc_pages()	
+		#cell.search_pub_yr()					
+		#cell.search_for_sex()		
+		#cell.search_for_age()	
+		#cell.search_for_primary_name()	
+		#cell.search_for_alias()	
+		
+		
+	
 		#Print data in a csv format.
-		print cell.primary_name +','+ cell.aliases +','+ cell.accession  +','+ cell.sex +','+ cell.age +','+ cell.ethnicity +','+ cell.pub_yr +','+ cell.og_yr +','+ cell.og_yr_url +','+ cell.eth_url
+		print cell.accession +','+ cell.ethnicity +','+ cell.eth_url	
+		#print cell.primary_name +','+ cell.aliases +','+ cell.accession  +','+ cell.sex +','+ cell.age +','+ cell.ethnicity +','+ cell.pub_yr +','+ cell.og_yr +','+ cell.og_yr_url +','+ cell.eth_url
 
 	
 #############
