@@ -547,8 +547,6 @@ bad_urls = ['https://portals.broadinstitute.org/ccle/page?cell_line=2313287_STOM
 	    'http://cell-lines.toku-e.com/Cell-Lines_460.html',
 	    '']
 
-#This guy might be useless ->	http://lincsportal.ccs.miami.edu/cells/#/view/LCL-1685
-
 # TODO look at this HTML for biosample website
 url = 'https://www.ncbi.nlm.nih.gov/biosample/?term=SAMN03471600'
 
